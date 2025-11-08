@@ -16,6 +16,7 @@ public:
 };
 
 TEST(LoggableTest, DirectConstruction) {
+    // Test direct construction with explicit sink managers (advanced API)
     auto params = std::make_shared<LoggingParams>(LoggingParams::consoleOnly());
     auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
     auto fileSink = std::make_shared<FileSinkManager>(params);
@@ -27,11 +28,8 @@ TEST(LoggableTest, DirectConstruction) {
 }
 
 TEST(LoggableTest, RegistryConstruction) {
-    auto params = std::make_shared<LoggingParams>(LoggingParams::consoleOnly());
-    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-    auto fileSink = std::make_shared<FileSinkManager>(params);
-
-    LoggerRegistry::initialize(params, consoleSink, fileSink);
+    // Test registry construction with simplified API
+    LoggerRegistry::initialize(std::make_shared<LoggingParams>(LoggingParams::consoleOnly()));
 
     EXPECT_NO_THROW({
         TestLoggable loggable("TestLogger2");
@@ -40,11 +38,9 @@ TEST(LoggableTest, RegistryConstruction) {
 }
 
 TEST(LoggableTest, MultipleMacros) {
-    auto params = std::make_shared<LoggingParams>(LoggingParams::consoleOnly().withConsoleLevel("trace"));
-    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-    auto fileSink = std::make_shared<FileSinkManager>(params);
-
-    LoggerRegistry::initialize(params, consoleSink, fileSink);
+    // Test all logging macros with simplified API
+    LoggerRegistry::initialize(
+        std::make_shared<LoggingParams>(LoggingParams::consoleOnly().withConsoleLevel("trace")));
 
     class MacroTest : public Loggable {
     public:

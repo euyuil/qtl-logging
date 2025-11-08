@@ -102,10 +102,10 @@ vcpkg install spdlog gtest
 
 ### Priority 3: Simplify Initialization API
 
-**Status**: 📋 Planned
+**Status**: ✅ Completed (2025-11-08)
 
-**Current Issue:**
-Initializing logging requires 4 steps:
+**Original Issue:**
+Initializing logging required 4 verbose steps:
 ```cpp
 auto params = std::make_shared<LoggingParams>(...);
 auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
@@ -113,34 +113,55 @@ auto fileSink = std::make_shared<FileSinkManager>(params);
 LoggerRegistry::initialize(params, consoleSink, fileSink);
 ```
 
-**Proposed Solution:**
-Make LoggerRegistry create sink managers internally:
+Users had to manually create sink managers even though they're typically not customized.
+
+**Solution Implemented:**
+Added simplified `initialize()` overload that creates sink managers internally:
 
 ```cpp
-// New simpler API
+// New simplified API (typical usage)
 LoggerRegistry::initialize(
-    LoggingParams::defaults()
-        .withConsoleLevel("info")
-        .withFileOutput(true)
+    std::make_shared<LoggingParams>(
+        LoggingParams::defaults()
+            .withConsoleLevel("info")
+            .withFileOutput(true)
+    )
 );
 
-// Alternative: Pass sessionDir for file sinks
+// With optional sessionDir
 LoggerRegistry::initialize(
-    LoggingParams::defaults().withFileOutput(true),
-    "/path/to/logs"  // optional sessionDir
+    std::make_shared<LoggingParams>(...),
+    "logs/2025-01-08"  // optional sessionDir
 );
+
+// Advanced API (still available)
+LoggerRegistry::initialize(params, consoleSink, fileSink);
 ```
 
-**Implementation:**
-- LoggerRegistry::initialize() takes LoggingParams and optional sessionDir
-- Creates ConsoleSinkManager and FileSinkManager internally
-- Stores them as static members
-- Keep backward compatibility with current API (overload)
+**Changes Made:**
+1. Added new `initialize(params, sessionDir = "")` method to LoggerRegistry
+2. Kept old `initialize(params, consoleSink, fileSink)` for backward compatibility
+3. Updated convenience header `qtl/logging.h` documentation
+4. Updated all examples to use simplified API
+5. Updated all tests to use simplified API (except sink manager tests)
+6. Updated README with simplified examples
 
-**Benefits:**
-- Less boilerplate for users
-- Simpler examples
-- Still allows advanced users to create sinks manually
+**Results:**
+- **4 lines → 1 line** for initialization
+- Sink managers hidden from typical users (implementation detail)
+- Backward compatible with advanced use cases
+- All 21 tests pass
+- Examples run correctly
+
+**Files Modified:**
+- `include/qtl/logging/logger_registry.h` - Added simplified initialize() overload
+- `src/logger_registry.cpp` - Implemented simplified initialize()
+- `include/qtl/logging.h` - Updated documentation
+- `examples/simple_example.cpp` - Uses simplified API
+- `examples/loggable_example.cpp` - Uses simplified API
+- `tests/test_loggable.cpp` - Updated to simplified API
+- `tests/test_logger_registry.cpp` - Updated to simplified API
+- `README.md` - Updated all examples
 
 ---
 

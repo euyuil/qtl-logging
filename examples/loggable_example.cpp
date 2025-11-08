@@ -33,19 +33,14 @@ public:
 };
 
 int main() {
-    // Configure logging
-    auto params = std::make_shared<LoggingParams>(
-        LoggingParams::defaults()
-            .withConsoleLevel("debug")
-            .withFileLevel("trace")
-            .withFileOutput(true)
-            .withFilePrefix("loggable_example"));
-
-    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-    auto fileSink = std::make_shared<FileSinkManager>(params);
-
-    // Initialize global registry
-    LoggerRegistry::initialize(params, consoleSink, fileSink);
+    // Initialize logging (simplified API)
+    LoggerRegistry::initialize(
+        std::make_shared<LoggingParams>(
+            LoggingParams::defaults()
+                .withConsoleLevel("debug")
+                .withFileLevel("trace")
+                .withFileOutput(true)
+                .withFilePrefix("loggable_example")));
 
     // Create components (they automatically get loggers)
     MyComponent comp1;

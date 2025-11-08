@@ -13,6 +13,15 @@ LoggerRegistry& LoggerRegistry::instance() {
     return registry;
 }
 
+void LoggerRegistry::initialize(std::shared_ptr<const LoggingParams> params, std::string sessionDir) {
+    // Create sink managers internally based on params
+    auto consoleSinkManager = std::make_shared<ConsoleSinkManager>(params);
+    auto fileSinkManager = std::make_shared<FileSinkManager>(params, sessionDir);
+
+    // Delegate to the advanced initialize
+    initialize(std::move(params), std::move(consoleSinkManager), std::move(fileSinkManager));
+}
+
 void LoggerRegistry::initialize(std::shared_ptr<const LoggingParams> params,
                                  std::shared_ptr<ConsoleSinkManager> consoleSinkManager,
                                  std::shared_ptr<FileSinkManager> fileSinkManager) {

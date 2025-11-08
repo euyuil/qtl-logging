@@ -9,12 +9,8 @@ using namespace qtl::logging;
 class LoggerRegistryTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Each test gets fresh registry state
-        auto params = std::make_shared<LoggingParams>(LoggingParams::consoleOnly());
-        auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-        auto fileSink = std::make_shared<FileSinkManager>(params);
-
-        LoggerRegistry::initialize(params, consoleSink, fileSink);
+        // Each test gets fresh registry state using simplified API
+        LoggerRegistry::initialize(std::make_shared<LoggingParams>(LoggingParams::consoleOnly()));
     }
 };
 

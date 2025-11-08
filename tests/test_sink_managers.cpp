@@ -9,6 +9,7 @@
 using namespace qtl::logging;
 
 TEST(ConsoleSinkManagerTest, DisabledConsole) {
+    // Test that disabled console returns nullptr (advanced/internal API)
     auto params = std::make_shared<LoggingParams>();
     params->logToConsole = false;
 

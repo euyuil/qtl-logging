@@ -23,8 +23,12 @@ namespace qtl::logging {
  * - Default logger for non-Loggable classes
  *
  * Usage:
- *   // Initialize once at application startup
- *   LoggerRegistry::initialize(params, consoleSink, fileSink);
+ *   // Initialize once at application startup (simple)
+ *   LoggerRegistry::initialize(
+ *       LoggingParams::defaults()
+ *           .withConsoleLevel("info")
+ *           .withFileOutput(true)
+ *   );
  *
  *   // Get logger from anywhere
  *   auto logger = LoggerRegistry::getLogger("MyComponent");
@@ -33,8 +37,19 @@ namespace qtl::logging {
 class LoggerRegistry {
 public:
     /**
-     * Initialize the global logger registry.
+     * Initialize the global logger registry (simplified API).
+     * Creates sink managers internally based on LoggingParams.
      * This should be called once at application startup.
+     *
+     * @param params Logging configuration
+     * @param sessionDir Optional directory for log files (e.g., "logs/2025-01-08")
+     */
+    static void initialize(std::shared_ptr<const LoggingParams> params, std::string sessionDir = "");
+
+    /**
+     * Initialize the global logger registry (advanced API).
+     * Allows providing custom sink managers for advanced use cases.
+     * Most users should use the simplified initialize() instead.
      *
      * @param params Logging configuration
      * @param consoleSinkManager Console sink manager (can be null)

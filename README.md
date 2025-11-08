@@ -189,7 +189,7 @@ target_link_libraries(your_app PRIVATE qtl-logging)
 #include <qtl/logging.h>
 ```
 
-This includes `LoggingParams`, `ConsoleSinkManager`, `FileSinkManager`, `LoggerRegistry`, and `Loggable`.
+This includes `LoggingParams`, `LoggerRegistry`, and `Loggable` (the essentials). Sink managers are created internally and typically not needed by users.
 
 #### Using the Global Registry
 
@@ -199,19 +199,15 @@ This includes `LoggingParams`, `ConsoleSinkManager`, `FileSinkManager`, `LoggerR
 using namespace qtl::logging;
 
 int main() {
-    // Configure logging
-    auto params = std::make_shared<LoggingParams>(
-        LoggingParams::defaults()
-            .withConsoleLevel("info")
-            .withFileOutput(true)
-            .withFilePrefix("myapp")
+    // Initialize logging (simplified API)
+    LoggerRegistry::initialize(
+        std::make_shared<LoggingParams>(
+            LoggingParams::defaults()
+                .withConsoleLevel("info")
+                .withFileOutput(true)
+                .withFilePrefix("myapp")
+        )
     );
-
-    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-    auto fileSink = std::make_shared<FileSinkManager>(params);
-
-    // Initialize global registry
-    LoggerRegistry::initialize(params, consoleSink, fileSink);
 
     // Get loggers by name
     auto logger = LoggerRegistry::getLogger("MyComponent");
@@ -248,11 +244,8 @@ public:
 };
 
 int main() {
-    // Initialize logging (same as above)
-    auto params = std::make_shared<LoggingParams>();
-    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-    auto fileSink = std::make_shared<FileSinkManager>(params);
-    LoggerRegistry::initialize(params, consoleSink, fileSink);
+    // Initialize logging (simplified API)
+    LoggerRegistry::initialize(std::make_shared<LoggingParams>());
 
     // Use the component
     MyComponent component;
