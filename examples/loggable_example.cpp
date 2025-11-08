@@ -1,0 +1,60 @@
+#include <qtl/logging/console_sink_manager.h>
+#include <qtl/logging/file_sink_manager.h>
+#include <qtl/logging/loggable.h>
+#include <qtl/logging/logger_registry.h>
+#include <qtl/logging/logging_params.h>
+
+#include <memory>
+
+using namespace qtl::logging;
+
+class MyComponent : public Loggable {
+public:
+    MyComponent() : Loggable("MyComponent") {
+        QTL_LOG_INFO("MyComponent created");
+    }
+
+    void doWork() {
+        QTL_LOG_DEBUG("Starting work...");
+        QTL_LOG_INFO("Processing item: {}", 123);
+        QTL_LOG_DEBUG("Work completed");
+    }
+};
+
+class AnotherComponent : public Loggable {
+public:
+    AnotherComponent() : Loggable("AnotherComponent") {
+        QTL_LOG_INFO("AnotherComponent initialized");
+    }
+
+    void process(int value) {
+        QTL_LOG_TRACE("Entering process with value: {}", value);
+        QTL_LOG_INFO("Processing value: {}", value * 2);
+        QTL_LOG_TRACE("Exiting process");
+    }
+};
+
+int main() {
+    // Configure logging
+    auto params = std::make_shared<LoggingParams>(
+        LoggingParams::defaults()
+            .withConsoleLevel("debug")
+            .withFileLevel("trace")
+            .withFileOutput(true)
+            .withFilePrefix("loggable_example"));
+
+    auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
+    auto fileSink = std::make_shared<FileSinkManager>(params);
+
+    // Initialize global registry
+    LoggerRegistry::initialize(params, consoleSink, fileSink);
+
+    // Create components (they automatically get loggers)
+    MyComponent comp1;
+    comp1.doWork();
+
+    AnotherComponent comp2;
+    comp2.process(42);
+
+    return 0;
+}
