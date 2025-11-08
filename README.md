@@ -71,6 +71,7 @@ When you install qtl-logging system-wide, the following files are copied to your
 │       └── qtl-logging-config-version.cmake          # Version info
 └── include/
     └── qtl/
+        ├── logging.h                                  # Convenience header
         └── logging/                                   # All public headers
             ├── console_sink_manager.h
             ├── file_sink_manager.h
@@ -90,6 +91,7 @@ C:\Program Files\qtl-logging\
 │       └── (CMake config files)
 └── include\
     └── qtl\
+        ├── logging.h                                  # Convenience header
         └── logging\                                   # All public headers
 ```
 
@@ -182,13 +184,17 @@ target_link_libraries(your_app PRIVATE qtl-logging)
 
 ### Basic Usage
 
+**Note:** For convenience, you can include all public APIs with a single header:
+```cpp
+#include <qtl/logging.h>
+```
+
+This includes `LoggingParams`, `ConsoleSinkManager`, `FileSinkManager`, `LoggerRegistry`, and `Loggable`.
+
 #### Using the Global Registry
 
 ```cpp
-#include <qtl/logging/logger_registry.h>
-#include <qtl/logging/logging_params.h>
-#include <qtl/logging/console_sink_manager.h>
-#include <qtl/logging/file_sink_manager.h>
+#include <qtl/logging.h>
 
 using namespace qtl::logging;
 
@@ -219,8 +225,7 @@ int main() {
 #### Using the Loggable Mixin
 
 ```cpp
-#include <qtl/logging/loggable.h>
-#include <qtl/logging/logger_registry.h>
+#include <qtl/logging.h>
 
 using namespace qtl::logging;
 
@@ -379,14 +384,15 @@ target_link_libraries(your_target PRIVATE qtl::qtl-logging)
 qtl-logging/
 ├── include/
 │   └── qtl/
+│       ├── logging.h                    # Convenience header (includes all below)
 │       └── logging/
-│           ├── console_sink_manager.h
-│           ├── file_sink_manager.h
-│           ├── level.h
-│           ├── loggable.h
-│           ├── logger_registry.h
-│           ├── logging_params.h
-│           └── string_hash.h
+│           ├── console_sink_manager.h  # Console output management
+│           ├── file_sink_manager.h     # File output with rotation
+│           ├── level.h                 # Internal: log level utilities
+│           ├── loggable.h              # Mixin class with QTL_* macros
+│           ├── logger_registry.h       # Global logger registry
+│           ├── logging_params.h        # Configuration structure
+│           └── string_hash.h           # Internal: heterogeneous lookup
 ├── src/
 │   ├── console_sink_manager.cpp
 │   ├── file_sink_manager.cpp

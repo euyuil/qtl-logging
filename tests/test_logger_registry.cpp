@@ -1,7 +1,4 @@
-#include <qtl/logging/console_sink_manager.h>
-#include <qtl/logging/file_sink_manager.h>
-#include <qtl/logging/logger_registry.h>
-#include <qtl/logging/logging_params.h>
+#include <qtl/logging.h>
 
 #include <gtest/gtest.h>
 
