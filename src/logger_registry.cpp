@@ -30,6 +30,10 @@ void LoggerRegistry::initialize(std::shared_ptr<const LoggingParams> params,
     reg.mConsoleSinkManager = std::move(consoleSinkManager);
     reg.mFileSinkManager = std::move(fileSinkManager);
     reg.mInitialized = true;
+
+    // Configure the default logger with the same sinks
+    auto defaultLogger = getLogger("default");
+    spdlog::set_default_logger(defaultLogger);
 }
 
 std::shared_ptr<spdlog::logger> LoggerRegistry::getLogger(std::string_view name) {
