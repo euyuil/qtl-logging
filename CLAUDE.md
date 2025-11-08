@@ -20,6 +20,12 @@ qtl-logging is a lightweight, standalone C++20 logging library extracted from th
 - **No [[nodiscard]]** on simple getters
 - **Namespaces**: `qtl::logging` and `qtl::util`
 
+## Git Commit Guidelines
+
+- **NO Claude Code credits**: Do not add "Generated with Claude Code" or "Co-Authored-By: Claude" to commit messages
+- **Keep commits clean**: Only include relevant technical information
+- **Use conventional format**: Clear subject line, detailed body when needed
+
 ## Improvement Plans
 
 ### Priority 1: Macro Naming
