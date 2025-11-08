@@ -28,144 +28,7 @@ qtl-logging is a lightweight, standalone C++20 logging library extracted from th
 
 ## Improvement Plans
 
-### Priority 1: Macro Naming
-
-**Status**: ✅ Completed (2025-11-08)
-
-**Original Issue:**
-- Macros were too verbose: `QTL_LOG_INFO(...)`, `QTL_LOG_DEBUG(...)`, etc.
-
-**Solution:**
-- Shortened to: `QTL_INFO(...)`, `QTL_DEBUG(...)`, `QTL_WARN(...)`, `QTL_ERROR(...)`, `QTL_CRITICAL(...)`, `QTL_TRACE(...)`
-- More concise, easier to type
-- "LOG" prefix is redundant since these are only used for logging
-
-**Files Modified:**
-- `include/qtl/logging/loggable.h` - Macro definitions and documentation
-- `tests/test_loggable.cpp` - Test usage
-- `examples/loggable_example.cpp` - Example usage
-- `README.md` - Documentation updates
-
----
-
-### Priority 2: Simplify Build System
-
-**Status**: ✅ Completed (2025-11-08)
-
-**Original Issues:**
-- FetchContent downloaded and compiled spdlog from source (~7 files)
-- GoogleTest also fetched for tests
-- No caching between clean builds
-- CMakeLists.txt handled both "found" and "fetched" cases (complex)
-- Long build times (~30s configure, ~60s total build)
-
-**Solution Implemented:**
-Replaced FetchContent with system packages:
-
-```cmake
-# Main CMakeLists.txt
-find_package(spdlog REQUIRED)
-
-# tests/CMakeLists.txt
-find_package(GTest REQUIRED)
-```
-
-**Installation Instructions Added:**
-```bash
-# Ubuntu/Debian
-sudo apt install libspdlog-dev libgtest-dev
-
-# macOS
-brew install spdlog googletest
-
-# vcpkg
-vcpkg install spdlog gtest
-```
-
-**Results:**
-- **Configuration time**: 30s → 0.5s (60x faster!)
-- **Total build time**: ~60s → ~5s (12x faster!)
-- **CMakeLists.txt**: Much simpler (removed 20+ lines)
-- All 21 tests still pass
-
-**Files Modified:**
-- `CMakeLists.txt` - Removed FetchContent, simplified to `find_package(spdlog REQUIRED)`
-- `tests/CMakeLists.txt` - Replaced FetchContent with `find_package(GTest REQUIRED)`
-- `README.md` - Added dependency installation instructions and updated requirements
-
-**Trade-offs:**
-- Users must install dependencies first (documented clearly)
-- Consistent with industry best practices
-- Better for CI/CD (can cache system packages)
-
----
-
-### Priority 3: Simplify Initialization API
-
-**Status**: ✅ Completed (2025-11-08)
-
-**Original Issue:**
-Initializing logging required 4 verbose steps:
-```cpp
-auto params = std::make_shared<LoggingParams>(...);
-auto consoleSink = std::make_shared<ConsoleSinkManager>(params);
-auto fileSink = std::make_shared<FileSinkManager>(params);
-LoggerRegistry::initialize(params, consoleSink, fileSink);
-```
-
-Users had to manually create sink managers even though they're typically not customized.
-
-**Solution Implemented:**
-Added simplified `initialize()` overload that creates sink managers internally:
-
-```cpp
-// New simplified API (typical usage)
-LoggerRegistry::initialize(
-    std::make_shared<LoggingParams>(
-        LoggingParams::defaults()
-            .withConsoleLevel("info")
-            .withFileOutput(true)
-    )
-);
-
-// With optional sessionDir
-LoggerRegistry::initialize(
-    std::make_shared<LoggingParams>(...),
-    "logs/2025-01-08"  // optional sessionDir
-);
-
-// Advanced API (still available)
-LoggerRegistry::initialize(params, consoleSink, fileSink);
-```
-
-**Changes Made:**
-1. Added new `initialize(params, sessionDir = "")` method to LoggerRegistry
-2. Kept old `initialize(params, consoleSink, fileSink)` for backward compatibility
-3. Updated convenience header `qtl/logging.h` documentation
-4. Updated all examples to use simplified API
-5. Updated all tests to use simplified API (except sink manager tests)
-6. Updated README with simplified examples
-
-**Results:**
-- **4 lines → 1 line** for initialization
-- Sink managers hidden from typical users (implementation detail)
-- Backward compatible with advanced use cases
-- All 21 tests pass
-- Examples run correctly
-
-**Files Modified:**
-- `include/qtl/logging/logger_registry.h` - Added simplified initialize() overload
-- `src/logger_registry.cpp` - Implemented simplified initialize()
-- `include/qtl/logging.h` - Updated documentation
-- `examples/simple_example.cpp` - Uses simplified API
-- `examples/loggable_example.cpp` - Uses simplified API
-- `tests/test_loggable.cpp` - Updated to simplified API
-- `tests/test_logger_registry.cpp` - Updated to simplified API
-- `README.md` - Updated all examples
-
----
-
-### Priority 4: Async Logging Support
+### Priority 1: Async Logging Support
 
 **Status**: 📋 Planned
 
@@ -194,7 +57,7 @@ struct LoggingParams {
 
 ---
 
-### Priority 5: Compile-time Log Level Filtering
+### Priority 2: Compile-time Log Level Filtering
 
 **Status**: 📋 Planned
 
@@ -230,7 +93,7 @@ target_compile_definitions(your_target PRIVATE
 
 ---
 
-### Priority 6: Enhanced Documentation
+### Priority 3: Enhanced Documentation
 
 **Status**: 📋 Planned
 
@@ -244,31 +107,6 @@ target_compile_definitions(your_target PRIVATE
    - Performance benchmark
 4. **Architecture Diagram**: Visual overview of components
 5. **Migration Guide**: From direct spdlog usage to qtl-logging
-
----
-
-### Priority 7: Namespace Alias
-
-**Status**: 📋 Planned
-
-**Description:**
-Add shorter namespace alias for convenience:
-
-```cpp
-namespace qtl {
-    namespace log = logging;
-}
-```
-
-**Usage:**
-```cpp
-using qtl::log::Loggable;
-using qtl::log::LoggerRegistry;
-```
-
-**Benefits:**
-- Shorter, more convenient
-- Optional (users can still use full namespace)
 
 ---
 
@@ -405,4 +243,4 @@ ctest --output-on-failure
 
 ---
 
-Last Updated: 2025-11-08
+Last Updated: 2025-11-08 (cleaned up completed priorities)

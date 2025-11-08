@@ -428,15 +428,13 @@ ctest --output-on-failure
 
 ## License
 
-This library is part of the qtl project. See LICENSE file for details.
+Copyright (c) 2025 Liu Yue. All rights reserved.
 
-## Contributing
+This is proprietary software. See the [LICENSE](LICENSE) file for full details.
 
-Contributions are welcome! Please ensure:
-- Code follows C++20 standards
-- All tests pass
-- New features include tests
-- Code is properly documented
+## Author
+
+Liu Yue <euyuil@gmail.com>
 
 ## Credits
 
