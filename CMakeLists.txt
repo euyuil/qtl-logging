@@ -10,28 +10,7 @@ option(QTL_LOGGING_BUILD_TESTS "Build unit tests" ON)
 option(QTL_LOGGING_BUILD_EXAMPLES "Build examples" ON)
 
 # Dependencies
-include(FetchContent)
-
-# spdlog
-find_package(spdlog QUIET)
-if(NOT spdlog_FOUND)
-    message(STATUS "spdlog not found, fetching from source...")
-    FetchContent_Declare(
-        spdlog
-        GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG v1.13.0
-    )
-    FetchContent_MakeAvailable(spdlog)
-
-    # Install spdlog when it's fetched so it can be exported
-    install(TARGETS spdlog
-        EXPORT qtl-logging-targets
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-        RUNTIME DESTINATION bin
-        INCLUDES DESTINATION include
-    )
-endif()
+find_package(spdlog REQUIRED)
 
 # Library target
 add_library(qtl-logging

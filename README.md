@@ -17,11 +17,32 @@ A lightweight, standalone C++20 logging library extracted from the trading-engin
 
 - C++20 compiler (GCC 10+, Clang 12+, MSVC 2019+)
 - CMake 3.15+
-- spdlog 1.13.0+ (automatically fetched if not found)
+- spdlog 1.12.0+
+- Google Test 1.14.0+ (for tests)
 
 ## Quick Start
 
-### Installation
+### Install Dependencies
+
+qtl-logging requires spdlog to be installed on your system.
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install libspdlog-dev libgtest-dev
+```
+
+**macOS (Homebrew):**
+```bash
+brew install spdlog googletest
+```
+
+**Other systems (vcpkg):**
+```bash
+vcpkg install spdlog gtest
+cmake -DCMAKE_TOOLCHAIN_FILE=[vcpkg]/scripts/buildsystems/vcpkg.cmake ..
+```
+
+### Build and Install
 
 ```bash
 git clone https://github.com/yourusername/qtl-logging.git
