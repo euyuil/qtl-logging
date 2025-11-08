@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #pragma once
 
 #include <qtl/logging/string_hash.h>

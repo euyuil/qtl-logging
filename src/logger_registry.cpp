@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #include <qtl/logging/logger_registry.h>
 #include <qtl/logging/level.h>
 

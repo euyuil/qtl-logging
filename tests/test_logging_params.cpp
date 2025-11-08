@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #include <qtl/logging/logging_params.h>
 
 #include <gtest/gtest.h>

@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #pragma once
 
 #include <qtl/logging/console_sink_manager.h>

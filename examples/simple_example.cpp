@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #include <qtl/logging.h>
 
 #include <memory>

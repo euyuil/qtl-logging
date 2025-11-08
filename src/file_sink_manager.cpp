@@ -1,3 +1,5 @@
+// Copyright (c) 2025 Liu Yue. All rights reserved.
+
 #include <qtl/logging/file_sink_manager.h>
 #include <qtl/logging/level.h>
 
