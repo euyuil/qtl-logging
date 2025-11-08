@@ -79,18 +79,18 @@ using namespace qtl::logging;
 class MyComponent : public Loggable {
 public:
     MyComponent() : Loggable("MyComponent") {
-        QTL_LOG_INFO("MyComponent created");
+        QTL_INFO("MyComponent created");
     }
 
     void doSomething(int value) {
-        QTL_LOG_DEBUG("Processing value: {}", value);
+        QTL_DEBUG("Processing value: {}", value);
 
         if (value < 0) {
-            QTL_LOG_ERROR("Invalid value: {}", value);
+            QTL_ERROR("Invalid value: {}", value);
             return;
         }
 
-        QTL_LOG_INFO("Successfully processed: {}", value);
+        QTL_INFO("Successfully processed: {}", value);
     }
 };
 
@@ -173,12 +173,12 @@ auto params3 = LoggingParams::defaults();
 When using the `Loggable` mixin, the following macros are available:
 
 ```cpp
-QTL_LOG_TRACE("Trace message: {}", value);
-QTL_LOG_DEBUG("Debug message: {}", value);
-QTL_LOG_INFO("Info message: {}", value);
-QTL_LOG_WARN("Warning message: {}", value);
-QTL_LOG_ERROR("Error message: {}", value);
-QTL_LOG_CRITICAL("Critical message: {}", value);
+QTL_TRACE("Trace message: {}", value);
+QTL_DEBUG("Debug message: {}", value);
+QTL_INFO("Info message: {}", value);
+QTL_WARN("Warning message: {}", value);
+QTL_ERROR("Error message: {}", value);
+QTL_CRITICAL("Critical message: {}", value);
 ```
 
 These macros use [fmt](https://github.com/fmtlib/fmt) syntax for formatting (bundled with spdlog).

@@ -13,7 +13,7 @@ public:
     using Loggable::Loggable;
 
     void logSomething() {
-        QTL_LOG_INFO("Test message");
+        QTL_INFO("Test message");
     }
 };
 
@@ -53,12 +53,12 @@ TEST(LoggableTest, MultipleMacros) {
         MacroTest() : Loggable("MacroTest") {}
 
         void testAllLevels() {
-            QTL_LOG_TRACE("Trace message");
-            QTL_LOG_DEBUG("Debug message");
-            QTL_LOG_INFO("Info message");
-            QTL_LOG_WARN("Warn message");
-            QTL_LOG_ERROR("Error message");
-            QTL_LOG_CRITICAL("Critical message");
+            QTL_TRACE("Trace message");
+            QTL_DEBUG("Debug message");
+            QTL_INFO("Info message");
+            QTL_WARN("Warn message");
+            QTL_ERROR("Error message");
+            QTL_CRITICAL("Critical message");
         }
     };
 

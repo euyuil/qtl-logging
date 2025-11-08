@@ -22,7 +22,7 @@ namespace qtl::logging {
  *   class MyClass : public Loggable {
  *   public:
  *       MyClass() : Loggable(...) {
- *           QTL_LOG_INFO("MyClass created");
+ *           QTL_INFO("MyClass created");
  *       }
  *   };
  *
@@ -52,7 +52,7 @@ public:
 protected:
     /**
      * Get the logger instance.
-     * Use the QTL_LOG_* macros instead of calling this directly.
+     * Use the QTL_* macros instead of calling this directly.
      */
     spdlog::logger& logger() const { return *mLogger; }
 
@@ -63,11 +63,11 @@ private:
 };
 
 // Convenience macros for logging
-#define QTL_LOG_TRACE(...) SPDLOG_LOGGER_TRACE(&this->logger(), __VA_ARGS__)
-#define QTL_LOG_DEBUG(...) SPDLOG_LOGGER_DEBUG(&this->logger(), __VA_ARGS__)
-#define QTL_LOG_INFO(...) SPDLOG_LOGGER_INFO(&this->logger(), __VA_ARGS__)
-#define QTL_LOG_WARN(...) SPDLOG_LOGGER_WARN(&this->logger(), __VA_ARGS__)
-#define QTL_LOG_ERROR(...) SPDLOG_LOGGER_ERROR(&this->logger(), __VA_ARGS__)
-#define QTL_LOG_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(&this->logger(), __VA_ARGS__)
+#define QTL_TRACE(...) SPDLOG_LOGGER_TRACE(&this->logger(), __VA_ARGS__)
+#define QTL_DEBUG(...) SPDLOG_LOGGER_DEBUG(&this->logger(), __VA_ARGS__)
+#define QTL_INFO(...) SPDLOG_LOGGER_INFO(&this->logger(), __VA_ARGS__)
+#define QTL_WARN(...) SPDLOG_LOGGER_WARN(&this->logger(), __VA_ARGS__)
+#define QTL_ERROR(...) SPDLOG_LOGGER_ERROR(&this->logger(), __VA_ARGS__)
+#define QTL_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(&this->logger(), __VA_ARGS__)
 
 }  // namespace qtl::logging

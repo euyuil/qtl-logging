@@ -11,26 +11,26 @@ using namespace qtl::logging;
 class MyComponent : public Loggable {
 public:
     MyComponent() : Loggable("MyComponent") {
-        QTL_LOG_INFO("MyComponent created");
+        QTL_INFO("MyComponent created");
     }
 
     void doWork() {
-        QTL_LOG_DEBUG("Starting work...");
-        QTL_LOG_INFO("Processing item: {}", 123);
-        QTL_LOG_DEBUG("Work completed");
+        QTL_DEBUG("Starting work...");
+        QTL_INFO("Processing item: {}", 123);
+        QTL_DEBUG("Work completed");
     }
 };
 
 class AnotherComponent : public Loggable {
 public:
     AnotherComponent() : Loggable("AnotherComponent") {
-        QTL_LOG_INFO("AnotherComponent initialized");
+        QTL_INFO("AnotherComponent initialized");
     }
 
     void process(int value) {
-        QTL_LOG_TRACE("Entering process with value: {}", value);
-        QTL_LOG_INFO("Processing value: {}", value * 2);
-        QTL_LOG_TRACE("Exiting process");
+        QTL_TRACE("Entering process with value: {}", value);
+        QTL_INFO("Processing value: {}", value * 2);
+        QTL_TRACE("Exiting process");
     }
 };
 
