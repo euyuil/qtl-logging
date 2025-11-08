@@ -21,6 +21,9 @@ add_library(qtl-logging
     src/logger_registry.cpp
 )
 
+# Alias for consistent namespaced target name in both build and install trees
+add_library(qtl::qtl-logging ALIAS qtl-logging)
+
 target_include_directories(qtl-logging
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

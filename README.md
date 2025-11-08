@@ -173,7 +173,7 @@ For development, avoid system installation and use `add_subdirectory()` instead:
 ```cmake
 # In your project's CMakeLists.txt
 add_subdirectory(path/to/qtl-logging)
-target_link_libraries(your_app PRIVATE qtl-logging)
+target_link_libraries(your_app PRIVATE qtl::qtl-logging)
 ```
 
 **Benefits:**
@@ -355,21 +355,39 @@ This creates files like: `myapp_2025-11-08.log`, `myapp_2025-11-09.log`, etc.
 
 ## CMake Integration
 
+### Using with FetchContent (Recommended)
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    qtl-logging
+    GIT_REPOSITORY https://github.com/euyuil/qtl-logging.git
+    GIT_TAG main  # or specify a version tag
+)
+
+FetchContent_MakeAvailable(qtl-logging)
+
+target_link_libraries(your_target PRIVATE qtl::qtl-logging)
+```
+
 ### Using as a Subdirectory
 
 ```cmake
-add_subdirectory(qtl-logging)
+add_subdirectory(path/to/qtl-logging)
 target_link_libraries(your_target PRIVATE qtl::qtl-logging)
 ```
 
 ### Using find_package
 
-After installation:
+After system-wide installation:
 
 ```cmake
 find_package(qtl-logging REQUIRED)
 target_link_libraries(your_target PRIVATE qtl::qtl-logging)
 ```
+
+**Note:** All methods use the same target name `qtl::qtl-logging` for consistency.
 
 ## Project Structure
 
