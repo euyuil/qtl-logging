@@ -1,7 +1,7 @@
 #pragma once
 
 #include <qtl/logging/logging_params.h>
-#include <qtl/util/string_hash.h>
+#include <qtl/logging/string_hash.h>
 
 #include <spdlog/sinks/sink.h>
 

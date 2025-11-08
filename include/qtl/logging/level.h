@@ -1,6 +1,6 @@
 #pragma once
 
-#include <qtl/util/string_hash.h>
+#include <qtl/logging/string_hash.h>
 
 #include <spdlog/spdlog.h>
 

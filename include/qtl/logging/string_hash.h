@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-namespace qtl {
+namespace qtl::logging {
 
 struct StrHash {
     using is_transparent = void;  // Enables heterogeneous lookup
@@ -22,4 +22,4 @@ struct StrEqualTo {
     bool operator()(const std::string& lhs, std::string_view rhs) const noexcept { return lhs == rhs; }
 };
 
-}  // namespace qtl
+}  // namespace qtl::logging

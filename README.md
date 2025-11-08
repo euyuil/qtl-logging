@@ -50,8 +50,135 @@ cd qtl-logging
 mkdir build && cd build
 cmake ..
 cmake --build .
+sudo cmake --install .  # Linux/macOS
+# Or without sudo on Windows (run as Administrator)
+```
+
+## Installation Guide
+
+### System-Wide Installation
+
+When you install qtl-logging system-wide, the following files are copied to your system:
+
+**Linux (default: `/usr/local/`):**
+```
+/usr/local/
+├── lib/
+│   ├── libqtl-logging.a                              # Static library
+│   └── cmake/qtl-logging/
+│       ├── qtl-logging-targets.cmake                 # CMake targets
+│       ├── qtl-logging-config.cmake                  # Package config
+│       └── qtl-logging-config-version.cmake          # Version info
+└── include/
+    └── qtl/
+        └── logging/                                   # All public headers
+            ├── console_sink_manager.h
+            ├── file_sink_manager.h
+            ├── level.h
+            ├── loggable.h
+            ├── logger_registry.h
+            ├── logging_params.h
+            └── string_hash.h
+```
+
+**Windows (default: `C:\Program Files\qtl-logging\`):**
+```
+C:\Program Files\qtl-logging\
+├── lib\
+│   ├── qtl-logging.lib                               # Static library
+│   └── cmake\qtl-logging\
+│       └── (CMake config files)
+└── include\
+    └── qtl\
+        └── logging\                                   # All public headers
+```
+
+### Custom Install Location
+
+You can change where the library is installed:
+
+**Linux/macOS:**
+```bash
+cmake -DCMAKE_INSTALL_PREFIX=/opt/qtl-logging ..
+cmake --build .
+sudo cmake --install .
+
+# Library will be in /opt/qtl-logging/lib/
+# Headers will be in /opt/qtl-logging/include/
+```
+
+**Windows:**
+```bash
+cmake -DCMAKE_INSTALL_PREFIX="C:/MyLibs/qtl-logging" ..
+cmake --build . --config Release
+cmake --install .
+```
+
+### Uninstalling
+
+CMake doesn't provide an automatic uninstall command, so you need to manually remove the installed files.
+
+**Linux/macOS (installed to /usr/local):**
+```bash
+sudo rm -f /usr/local/lib/libqtl-logging.a
+sudo rm -rf /usr/local/lib/cmake/qtl-logging
+sudo rm -rf /usr/local/include/qtl/logging
+```
+
+**Linux/macOS (custom install prefix):**
+```bash
+# Replace /opt/qtl-logging with your CMAKE_INSTALL_PREFIX
+sudo rm -f /opt/qtl-logging/lib/libqtl-logging.a
+sudo rm -rf /opt/qtl-logging/lib/cmake/qtl-logging
+sudo rm -rf /opt/qtl-logging/include/qtl/logging
+```
+
+**Windows (installed to C:\Program Files\qtl-logging):**
+```powershell
+# Run PowerShell as Administrator
+Remove-Item "C:\Program Files\qtl-logging" -Recurse -Force
+```
+
+**Windows (custom install prefix):**
+```powershell
+# Replace path with your CMAKE_INSTALL_PREFIX
+Remove-Item "C:\MyLibs\qtl-logging" -Recurse -Force
+```
+
+**Tip:** After installation, CMake creates `build/install_manifest.txt` which lists all installed files. You can use this to verify what was installed.
+
+### Updating to a New Version
+
+```bash
+# 1. Get the latest code
+cd qtl-logging
+git pull
+
+# 2. Rebuild
+rm -rf build
+mkdir build && cd build
+cmake ..
+cmake --build .
+
+# 3. Reinstall (automatically overwrites old version)
 sudo cmake --install .
 ```
+
+### Using Without System Installation (Recommended for Development)
+
+For development, avoid system installation and use `add_subdirectory()` instead:
+
+```cmake
+# In your project's CMakeLists.txt
+add_subdirectory(path/to/qtl-logging)
+target_link_libraries(your_app PRIVATE qtl-logging)
+```
+
+**Benefits:**
+- No sudo required
+- Changes immediately available
+- Easy to switch versions
+- No installation conflicts
 
 ### Basic Usage
 
@@ -252,14 +379,13 @@ target_link_libraries(your_target PRIVATE qtl::qtl-logging)
 qtl-logging/
 ├── include/
 │   └── qtl/
-│       ├── logging/
-│       │   ├── console_sink_manager.h
-│       │   ├── file_sink_manager.h
-│       │   ├── level.h
-│       │   ├── loggable.h
-│       │   ├── logger_registry.h
-│       │   └── logging_params.h
-│       └── util/
+│       └── logging/
+│           ├── console_sink_manager.h
+│           ├── file_sink_manager.h
+│           ├── level.h
+│           ├── loggable.h
+│           ├── logger_registry.h
+│           ├── logging_params.h
 │           └── string_hash.h
 ├── src/
 │   ├── console_sink_manager.cpp
