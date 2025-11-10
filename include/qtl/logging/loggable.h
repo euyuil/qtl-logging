@@ -2,15 +2,10 @@
 
 #pragma once
 
-#if !defined(NDEBUG) && !defined(SPDLOG_ACTIVE_LEVEL)
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
-#endif
-
 #include <qtl/logging/console_sink_manager.h>
 #include <qtl/logging/file_sink_manager.h>
 #include <qtl/logging/logging_params.h>
-
-#include <spdlog/spdlog.h>
+#include <qtl/logging/spdlog_config.h>
 
 #include <memory>
 #include <string>

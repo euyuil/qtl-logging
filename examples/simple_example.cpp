@@ -12,6 +12,8 @@ int main() {
         std::make_shared<LoggingParams>(
             LoggingParams::defaults()
                 .withConsoleOutput(true)
+                .withConsoleLevel("debug")   // Set console to debug level
+                .withLogLevel("debug")       // Set overall log level to debug
                 .withFileOutput(true)
                 .withFilePrefix("simple_example")
                 .withRotation(true, 5, 3)),  // 5MB, 3 files

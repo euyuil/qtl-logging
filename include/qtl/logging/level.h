@@ -2,9 +2,8 @@
 
 #pragma once
 
+#include <qtl/logging/spdlog_config.h>
 #include <qtl/logging/string_hash.h>
-
-#include <spdlog/spdlog.h>
 
 #include <format>
 #include <stdexcept>

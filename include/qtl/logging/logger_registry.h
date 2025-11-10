@@ -5,8 +5,7 @@
 #include <qtl/logging/console_sink_manager.h>
 #include <qtl/logging/file_sink_manager.h>
 #include <qtl/logging/logging_params.h>
-
-#include <spdlog/spdlog.h>
+#include <qtl/logging/spdlog_config.h>
 
 #include <memory>
 #include <string>
