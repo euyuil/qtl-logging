@@ -3,6 +3,7 @@
 #pragma once
 
 #include <qtl/logging/logging_params.h>
+#include <qtl/logging/spdlog_config.h>
 
 #include <spdlog/sinks/sink.h>
 

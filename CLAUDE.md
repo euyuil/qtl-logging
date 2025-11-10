@@ -155,6 +155,31 @@ Loggable("MyLogger")  // Uses global registry
 - Users can use spdlog features directly if needed
 - Our library config is abstracted (LoggingParams), which is what matters
 
+### Full Control Over spdlog Configuration
+
+**Decision**: qtl-logging maintains complete control over spdlog configuration
+
+**Implementation:**
+- All spdlog configuration happens in `spdlog_config.h`
+- Strict compile-time check: `#error` if `SPDLOG_ACTIVE_LEVEL` is already defined
+- Users cannot override via CMake flags or source definitions
+
+**Reasoning:**
+- **Single source of truth**: Prevents configuration conflicts and surprises
+- **Predictable behavior**: Same behavior across all users and build systems
+- **Future flexibility**: If compile-time optimization is needed later, we'll add our own macros (e.g., `QTL_MIN_LOG_LEVEL`) rather than exposing spdlog's internals
+- **Encapsulation**: spdlog is an implementation detail; our API should control it
+
+**Future Compile-Time Optimization:**
+When Priority 2 is implemented, use qtl-logging's own flags:
+```cmake
+# Correct way (future)
+target_compile_definitions(your_target PRIVATE QTL_MIN_LOG_LEVEL=QTL_LEVEL_INFO)
+
+# Wrong way (never do this)
+target_compile_definitions(your_target PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO)
+```
+
 ---
 
 ## Testing Strategy
