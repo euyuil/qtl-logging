@@ -2,7 +2,7 @@
 
 #pragma once
 
-#if !defined(NDEBUG)
+#if !defined(NDEBUG) && !defined(SPDLOG_ACTIVE_LEVEL)
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 #endif
 
