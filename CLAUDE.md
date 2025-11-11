@@ -26,87 +26,22 @@ qtl-logging is a lightweight, standalone C++20 logging library extracted from th
 - **Keep commits clean**: Only include relevant technical information
 - **Use conventional format**: Clear subject line, detailed body when needed
 
-## Improvement Plans
+## Planned Improvements
 
-### Priority 1: Async Logging Support
+**For Claude Code agents**: All planned features and improvements are tracked as GitHub issues.
+Use the GitHub MCP tools to interact with issues:
+- `mcp__github__list_issues` - List all open issues
+- `mcp__github__issue_read` - Read issue details
+- `mcp__github__issue_write` - Create or update issues
 
-**Status**: 📋 Planned
+**For humans**: View issues at https://github.com/euyuil/qtl-logging/issues
 
-**Description:**
-Add support for asynchronous logging using spdlog's async features.
-
-**Configuration:**
-```cpp
-struct LoggingParams {
-    bool asyncLogging = false;
-    size_t asyncQueueSize = 8192;
-    size_t asyncThreads = 1;
-    // ... existing fields
-};
-```
-
-**Benefits:**
-- Non-blocking log calls (better performance for hot paths)
-- Separate thread handles I/O
-- Configurable queue size
-
-**Implementation Notes:**
-- Use spdlog::async_factory
-- Ensure proper shutdown (flush queue)
-- Document trade-offs (memory usage, ordering guarantees)
-
----
-
-### Priority 2: Compile-time Log Level Filtering
-
-**Status**: 📋 Planned
-
-**Description:**
-Add compile-time macros to completely eliminate low-level logs in release builds.
-
-**Implementation:**
-```cpp
-// In loggable.h
-#ifndef QTL_MIN_LOG_LEVEL
-#define QTL_MIN_LOG_LEVEL QTL_LEVEL_TRACE
-#endif
-
-#if QTL_MIN_LOG_LEVEL <= QTL_LEVEL_TRACE
-#define QTL_TRACE(...) logger().trace(__VA_ARGS__)
-#else
-#define QTL_TRACE(...) ((void)0)
-#endif
-```
-
-**CMake Integration:**
-```cmake
-# Release builds
-target_compile_definitions(your_target PRIVATE
-    QTL_MIN_LOG_LEVEL=QTL_LEVEL_INFO
-)
-```
-
-**Benefits:**
-- Zero runtime overhead for disabled log levels
-- Compiler can optimize away the code completely
-- Useful for release builds
-
----
-
-### Priority 3: Enhanced Documentation
-
-**Status**: 📋 Planned
-
-**Items:**
-1. **Doxygen Comments**: Add to all public APIs
-2. **API Reference**: Generate with Doxygen
-3. **More Examples**:
-   - Rotation example
-   - Custom pattern example
-   - Multi-component application
-   - Performance benchmark
-4. **Architecture Diagram**: Visual overview of components
-5. **Migration Guide**: From direct spdlog usage to qtl-logging
+Current priorities:
+- **#1**: Async logging support (high priority)
+- **#2**: Compile-time log level filtering
+- **#3**: Enhanced documentation
+- **#4**: More usage examples
+- **#5**: Performance benchmarks
 
 ---
 
@@ -265,7 +200,3 @@ ctest --output-on-failure
 2. Do we need a LoggingParams validator (check invalid combinations)?
 3. Should we add a default logger (without calling initialize)?
 4. Support for custom formatters beyond patterns?
-
----
-
-Last Updated: 2025-11-08 (cleaned up completed priorities)
