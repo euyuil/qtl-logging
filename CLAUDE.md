@@ -152,8 +152,9 @@ target_compile_definitions(your_target PRIVATE SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_
 - Google Test (for tests)
 
 **CMake Options**:
-- `QTL_LOGGING_BUILD_TESTS` (default: ON)
-- `QTL_LOGGING_BUILD_EXAMPLES` (default: ON)
+- `BUILD_TESTING` is the global CMake test switch. The top-level project owns it.
+- `QTL_LOGGING_BUILD_TESTS` defaults to ON for a standalone build and OFF when used as a subproject. Tests require both this option and `BUILD_TESTING` to be ON.
+- `QTL_LOGGING_BUILD_EXAMPLES` defaults to ON for a standalone build and OFF when used as a subproject.
 
 **Build Commands**:
 ```bash

@@ -1,7 +1,7 @@
 # Find Google Test
-find_package(GTest REQUIRED)
-
-enable_testing()
+if(NOT TARGET GTest::gtest_main)
+    find_package(GTest REQUIRED)
+endif()
 
 add_executable(test_logging
     test_logging_params.cpp

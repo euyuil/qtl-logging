@@ -18,7 +18,7 @@ A lightweight, standalone C++20 logging library extracted from the trading-engin
 - C++20 compiler (GCC 10+, Clang 12+, MSVC 2019+)
 - CMake 3.15+
 - spdlog 1.12.0+
-- Google Test 1.14.0+ (for tests)
+- Google Test 1.14.0+ (only when tests are enabled)
 
 ## Quick Start
 
@@ -441,8 +441,18 @@ ctest --output-on-failure
 
 ### CMake Options
 
-- `QTL_LOGGING_BUILD_TESTS` (default: ON) - Build unit tests
-- `QTL_LOGGING_BUILD_EXAMPLES` (default: ON) - Build examples
+- `BUILD_TESTING` - CMake's global test switch. It defaults to `ON` for a standalone build.
+- `QTL_LOGGING_BUILD_TESTS` - Build qtl-logging unit tests. It defaults to `ON` for a standalone build and `OFF` when qtl-logging is a subproject. Tests are built only when this option and `BUILD_TESTING` are both `ON`.
+- `QTL_LOGGING_BUILD_EXAMPLES` - Build examples. It defaults to `ON` for a standalone build and `OFF` when qtl-logging is a subproject.
+
+The top-level project owns the global CTest setup. A parent project can opt in
+to qtl-logging tests before adding or fetching qtl-logging:
+
+```cmake
+include(CTest)
+set(QTL_LOGGING_BUILD_TESTS ON)
+add_subdirectory(path/to/qtl-logging)
+```
 
 ## License
 
